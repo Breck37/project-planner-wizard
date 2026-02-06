@@ -1,0 +1,57 @@
+'use client';
+
+import { PartialPlan } from '@/lib/schema';
+
+interface ParkingLotProps {
+  plan: PartialPlan;
+  onUpdate: (updates: Partial<PartialPlan>) => void;
+  onNext: () => void;
+  onBack: () => void;
+}
+
+export default function ParkingLot({ plan, onUpdate, onNext, onBack }: ParkingLotProps) {
+  const handleChange = (value: string) => {
+    onUpdate({
+      parkingLot: {
+        ideas: value,
+      },
+    });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold mb-2 text-heading">Future Expansion Parking Lot</h2>
+        <p className="text-muted">Capture ideas for later without committing now</p>
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium mb-2 text-body">Future ideas (optional)</label>
+          <textarea
+            value={plan.parkingLot?.ideas || ''}
+            onChange={e => handleChange(e.target.value)}
+            rows={6}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="List potential features, improvements, or expansions for future versions"
+          />
+        </div>
+      </div>
+
+      <div className="flex justify-between">
+        <button
+          onClick={onBack}
+          className="px-6 py-2 border border-gray-400 rounded-lg text-body hover:bg-gray-200 hover:border-gray-500 transition-colors"
+        >
+          ← Back
+        </button>
+        <button
+          onClick={onNext}
+          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Next →
+        </button>
+      </div>
+    </div>
+  );
+}
